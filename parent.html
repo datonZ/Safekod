@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SafeKid Monitor</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
+header{background:#161b22;border-bottom:1px solid #21262d;padding:12px 16px;display:flex;align-items:center;gap:10px}
+header h1{font-size:1rem;color:#fff}
+.bdg{margin-left:auto;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid #30363d;border-radius:20px;padding:4px 12px;font-size:.7rem}
+.bdot{width:7px;height:7px;border-radius:50%}.on{background:#3fb950;animation:p 2s infinite}.off{background:#f85149}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+#cw{max-width:400px;margin:32px auto;background:#161b22;border:1px solid #30363d;border-radius:14px;padding:24px}
+#cw h2{font-size:1rem;margin-bottom:5px}#cw p{color:#7d8590;font-size:.78rem;margin-bottom:16px}
+.field{margin-bottom:12px}
+label{display:block;font-size:.65rem;font-weight:700;color:#7d8590;margin-bottom:4px;letter-spacing:1px;text-transform:uppercase}
+input{width:100%;padding:10px 12px;background:#0d1117;border:1px solid #30363d;border-radius:9px;color:#e6edf3;font-size:.9rem;outline:none;font-family:inherit}
+input:focus{border-color:#388bfd}input::placeholder{color:#484f58}
+.bcn{width:100%;padding:12px;border:none;border-radius:11px;background:linear-gradient(135deg,#238636,#2ea043);color:#fff;font-size:.88rem;font-weight:700;cursor:pointer;font-family:inherit}
+#dash{display:none;padding:12px;max-width:820px;margin:0 auto}
+.wb{background:#161b22;border:1px solid #21262d;border-radius:9px;padding:7px 13px;display:flex;align-items:center;gap:7px;font-size:.7rem;color:#7d8590;margin-bottom:12px}
+.wd{width:7px;height:7px;border-radius:50%}.wg{background:#3fb950;animation:p 2s infinite}.wr{background:#f85149}.wy{background:#d29922;animation:p 1s infinite}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+@media(max-width:560px){.g2{grid-template-columns:1fr}.full{grid-column:1}}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;overflow:hidden}
+.ch{padding:10px 14px;border-bottom:1px solid #21262d;display:flex;align-items:center;gap:8px}
+.ci{font-size:.85rem;width:26px;height:26px;background:#21262d;border-radius:6px;display:grid;place-items:center}
+.ct{font-size:.82rem;font-weight:700}.cs{margin-left:auto;font-size:.65rem;color:#484f58}
+.cb{padding:13px}
+.sc{text-align:center;padding:16px 13px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:3px 12px;font-size:.7rem;font-weight:700;margin-top:8px}
+.pill.on{background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.3);color:#3fb950}
+.pill.off{background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);color:#f85149}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #21262d;font-size:.8rem}
+.ir:last-child{border-bottom:none}.ik{color:#7d8590}.iv{font-weight:700}
+#mf{width:100%;height:240px;border:none;border-radius:7px;background:#0d1117}
+#ci2{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:7px;display:none}
+.cph{width:100%;aspect-ratio:4/3;border-radius:7px;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#484f58;font-size:.75rem}
+.cph span{font-size:1.8rem;opacity:.25}
+.disc{margin-top:12px;width:100%;padding:10px;background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.25);border-radius:9px;color:#f85149;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>🛡️ SafeKid Monitor</h1></div>
+  <div class="bdg"><div class="bdot off" id="bd"></div><span id="bt">Belum terhubung</span></div>
+</header>
+<div id="cw">
+  <h2>🔗 Hubungkan ke Target</h2>
+  <p>Masukkan kode room yang sama dengan link yang dikirim.</p>
+  <div class="field"><label>Kode Room</label><input id="ri" type="text" placeholder="BDAY" style="text-transform:uppercase;letter-spacing:2px;font-size:1rem" value="BDAY"></div>
+  <button class="bcn" id="bco">🔗 Hubungkan</button>
+</div>
+<div id="dash">
+  <div class="wb"><div class="wd wy" id="wd"></div><span id="wst">Menghubungkan...</span></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ci">👤</div><div class="ct">Status</div></div>
+    <div class="sc"><div style="font-size:2.2rem">🎂</div><div style="font-size:1rem;font-weight:700;margin-top:6px" id="dn">—</div><div style="font-size:.7rem;color:#484f58;margin-top:3px" id="dl">Menunggu...</div><div class="pill off" id="dp">⚫ Offline</div></div></div>
+    <div class="card"><div class="ch"><div class="ci">📊</div><div class="ct">Lokasi</div><span class="cs" id="lt">—</span></div>
+    <div class="cb">
+      <div class="ir"><span class="ik">Latitude</span><span class="iv" id="dlat">—</span></div>
+      <div class="ir"><span class="ik">Longitude</span><span class="iv" id="dlng">—</span></div>
+      <div class="ir"><span class="ik">Akurasi</span><span class="iv" id="dacc">—</span></div>
+      <div class="ir"><span class="ik">Kecepatan</span><span class="iv" id="dspd">—</span></div>
+    </div></div>
+    <div class="card full"><div class="ch"><div class="ci">🗺️</div><div class="ct">Peta</div><span class="cs" id="mt">—</span></div>
+    <div class="cb"><iframe id="mf" src="about:blank" allowfullscreen></iframe></div></div>
+    <div class="card full"><div class="ch"><div class="ci">📷</div><div class="ct">Kamera</div><span class="cs" id="ct2">—</span></div>
+    <div class="cb"><div class="cph" id="cph"><span>📷</span><span>Menunggu foto...</span></div><img id="ci2" alt="cam"></div></div>
+  </div>
+  <button class="disc" id="bdc">✖ Putuskan</button>
+</div>
+<script>
+let ws;
+const ago=t=>{const s=Math.floor((Date.now()-t)/1000);if(s<10)return'baru saja';if(s<60)return s+' dtk lalu';return Math.floor(s/60)+' mnt lalu';};
+const gwu=()=>(location.protocol==='https:'?'wss:':'ws:')+'//'+location.host;
+document.getElementById('bco').onclick=()=>{
+  const room=document.getElementById('ri').value.trim().toUpperCase();
+  if(!room){alert('Isi kode room!');return;}
+  document.getElementById('cw').style.display='none';
+  document.getElementById('dash').style.display='block';
+  ws=new WebSocket(gwu());
+  ws.onopen=()=>{document.getElementById('wd').className='wd wg';document.getElementById('wst').textContent='Terhubung ✓';ws.send(JSON.stringify({type:'join',role:'parent',room}));};
+  ws.onclose=()=>{document.getElementById('wd').className='wd wr';document.getElementById('wst').textContent='Terputus';};
+  ws.onmessage=e=>{
+    let m;try{m=JSON.parse(e.data);}catch{return;}
+    if(m.type==='status'){
+      if(m.childName)document.getElementById('dn').textContent=m.childName;
+      const pill=document.getElementById('dp'),bd=document.getElementById('bd');
+      if(m.online){pill.textContent='🟢 Online';pill.className='pill on';bd.className='bdot on';document.getElementById('bt').textContent=(m.childName||'Target')+' Online';}
+      else{pill.textContent='⚫ Offline';pill.className='pill off';bd.className='bdot off';document.getElementById('bt').textContent='Offline';}
+      if(m.lastSeen)document.getElementById('dl').textContent=ago(m.lastSeen);
+    }
+    if(m.type==='location'){const d=m.data;
+      document.getElementById('dlat').textContent=d.lat?.toFixed(6)??'—';
+      document.getElementById('dlng').textContent=d.lng?.toFixed(6)??'—';
+      document.getElementById('dacc').textContent=d.accuracy?d.accuracy.toFixed(0)+' m':'—';
+      document.getElementById('dspd').textContent=d.speed?(d.speed*3.6).toFixed(1)+' km/h':'0';
+      document.getElementById('lt').textContent=ago(d.timestamp);
+      document.getElementById('mt').textContent=ago(d.timestamp);
+      document.getElementById('mf').src='https://maps.google.com/maps?q='+d.lat+','+d.lng+'&z=16&output=embed';
+    }
+    if(m.type==='camera'){
+      const img=document.getElementById('ci2');
+      img.src=m.data.image;img.style.display='block';
+      document.getElementById('cph').style.display='none';
+      document.getElementById('ct2').textContent=ago(m.data.timestamp);
+    }
+  };
+};
+document.getElementById('bdc').onclick=()=>{
+  if(ws)ws.close();
+  document.getElementById('cw').style.display='block';
+  document.getElementById('dash').style.display='none';
+  document.getElementById('mf').src='about:blank';
+  document.getElementById('ci2').style.display='none';
+  document.getElementById('cph').style.display='flex';
+  document.getElementById('bd').className='bdot off';
+  document.getElementById('bt').textContent='Belum terhubung';
+};
+</script>
+</body>
+</html>
